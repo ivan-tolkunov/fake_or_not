@@ -17,14 +17,13 @@ def read_csv():
     labels = next(reader)
     for row in reader:
        process_row(row, labels)
-      
 
 def process_row(row, labels):
-  img_path = [ data_path/labels[1], data_path/labels[2] ]
-  create_directories(img_path)
-  download_resize_image(row[1], img_path[0]/f'{row[0]}.jpg')
+  img_pathes = [ data_path/labels[1], data_path/labels[2] ]
+  create_directories(img_pathes)
+  download_resize_image(row[1], img_pathes[0]/f'{row[0]}.jpg')
   sleep(2)
-  download_resize_image(row[2], img_path[1]/f'{row[0]}.jpg')
+  download_resize_image(row[2], img_pathes[1]/f'{row[0]}.jpg')
   sleep(2)
 
 def create_directories(directories):
@@ -37,7 +36,7 @@ def create_directories(directories):
 def download_resize_image(url, dest_path):
   download_img(url, dest_path)
   resize_img(400, dest_path)
-
+  verify_and_remove_invalid_image(dest_path)
 
 def download_img(url, dest_path):
   try:
@@ -57,5 +56,15 @@ def resize_img(px, dest):
       print(f'Resized { os.path.basename(dest) }')
   except Exception as e:
     print(e)
+
+def verify_and_remove_invalid_image(img_path):
+  try:
+    with Image.open(img_path) as img:
+      img.verify() 
+      print(f'{ os.path.basename(img_path) } is a valid image')
+  except (IOError, SyntaxError) as e:
+    print(e)
+    print(f'{ os.path.basename(img_path) } is not a valid image. Removing it...')
+    os.remove(img_path) 
 
 get_data()
