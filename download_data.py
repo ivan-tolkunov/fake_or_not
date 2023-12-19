@@ -9,30 +9,52 @@ csv_path = './data/fakeOrNot.csv'
 data_path = Path('data')
 
 def get_data():
+  read_csv()
+     
+def read_csv():
   with open(csv_path, 'r') as file:
     reader = csv.reader(file)
-    lables = next(reader)
+    labels = next(reader)
     for row in reader:
-      dest = [ data_path/lables[1], data_path/lables[2] ]
-      os.makedirs(dest[0], exist_ok=True)
-      os.makedirs(dest[1], exist_ok=True)
-      download_image(row[1], dest[0]/f'{row[0]}.jpg')
-      sleep(2)
-      download_image(row[2], dest[1]/f'{row[0]}.jpg')
-      sleep(2)
+       process_row(row, labels)
+      
 
-def download_image(url, dest):
+def process_row(row, labels):
+  img_path = [ data_path/labels[1], data_path/labels[2] ]
+  create_directories(img_path)
+  download_resize_image(row[1], img_path[0]/f'{row[0]}.jpg')
+  sleep(2)
+  download_resize_image(row[2], img_path[1]/f'{row[0]}.jpg')
+  sleep(2)
+
+def create_directories(directories):
+  for directory in directories:
+    try:
+      os.makedirs(directory, exist_ok=True)
+    except Exception as e:
+      print(e)
+
+def download_resize_image(url, dest_path):
+  download_img(url, dest_path)
+  resize_img(400, dest_path)
+
+
+def download_img(url, dest_path):
   try:
     img_data = requests.get(url, stream=True)
     img_data.raise_for_status()
-    with open(dest, 'wb') as file:
+    with open(dest_path, 'wb') as file:
       file.write(img_data.content)
+      print(f'Downloaded {url}')
+  except Exception as e:
+    print(e)
+
+def resize_img(px, dest):
+  try:
     with Image.open(dest) as img:
-      img = img.resize((400, 400))
+      img = img.resize((px, px))
       img.save(dest)
-    print(f'Downloaded {url}')
-  except requests.exceptions.RequestException as requests_e:
-    print(requests_e)
+      print(f'Resized { os.path.basename(dest) }')
   except Exception as e:
     print(e)
 
