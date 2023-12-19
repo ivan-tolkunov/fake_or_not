@@ -12,3 +12,6 @@ venv/
 
 # Ignore the data folder
 data/
+
+# Ignore the models folder
+models/
