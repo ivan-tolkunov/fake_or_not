@@ -1,0 +1,2 @@
+inp,output,flag,username,timestamp
+"{""path"":""flagged/inp/9c5629cade5160f69eef/N9BF3DUZ72E3.jpg"",""url"":""http://127.0.0.1:7860/file=/private/var/folders/5b/08rd18_51k3fyshrngkzmxch0000gn/T/gradio/a3e09d25c3c229c7c6e163841d4e56e4c10566ca/N9BF3DUZ72E3.jpg"",""size"":21975,""orig_name"":""N9BF3DUZ72E3.jpg"",""mime_type"":""""}","{""label"":""real"",""confidences"":[{""label"":""real"",""confidence"":1.0},{""label"":""ai"",""confidence"":1.8216498531842262e-8}]}",,,2023-12-19 18:34:01.446701

@@ -75,5 +75,5 @@ class DownloadSet:
       print(f"{ os.path.basename(img_path) } is not a valid image. Removing it...")
       os.remove(img_path)
 
-# DownloadSet("./data/fakeOrNot.csv", Path("./data/train_set")).get_data()
+DownloadSet("./data/fakeOrNot.csv", Path("./data/train_set")).get_data()
 DownloadSet("./data/fakeOrNot.csv", Path("data/test_set"), 1001, 1256).get_data()
