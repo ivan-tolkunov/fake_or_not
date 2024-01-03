@@ -15,3 +15,5 @@ data/
 
 # Ignore the models folder
 models/
+
+__pycache__/
